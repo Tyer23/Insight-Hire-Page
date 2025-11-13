@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" >
+    <meta name="description" content="assignment2" >
+    <meta name="keywords" content="HTML, Bootstrap, Vue, Vue Router" >
+    <meta name="author" content="Quoc Co Luc (Tyler)" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>Assignment 2 - Insight Hire</title>
+    <!-- Bootstrap -->
+    <link href="../framework/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="../framework/css/vuetify.min.css" rel="stylesheet" >
+    <!-- link to material design -->
+	<link href="../framework/css/materialdesignicons.min.css" rel="stylesheet">
+    <!-- CSS style -->
+    <link href="../framework/css/assign2.css" rel="stylesheet" >
+</head>
+
+<body>
+    <h1>Insight Hire</h1>
+    <img src="job.jpg" alt="insight hire" >
+
+    <!-- JOB EXPLORER -->
+    <div class="container">
+        <div class="row">
+           <div class="col-sm-3">
+               <h2>Job Explorer</h2>
+           </div>
+           <div id="app">
+              <App></App>
+           </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION FORM -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+               <h2>Job Application</h2>
+            </div>
+            <div id="app2">
+              <v-app>
+               <v-main>
+                 <v-container>
+                   <v-form ref="form" v-model="valid" method="post" action="http://mercury.swin.edu.au/it000000/formtest.php">
+                    <fieldset>
+                        <legend>Personal Information</legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                   <v-text-field name="firstName" v-model="firstName" :rules="nameRules" label="First Name" required ></v-text-field>
+                                </div>
+                                <div class="col-md-6">
+                                   <v-text-field name="lastName" v-model="lastName" :rules="nameRules" label="Last Name" required ></v-text-field>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                   <v-text-field name="dob" v-model="dob" :rules="dobRules" label="Date of Birth" placeholder="YYYY/MM/DD" required ></v-text-field>
+                                </div>
+                            </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Account Details</legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                   <v-text-field name="userName" v-model="userName" :rules="userNameRules" label="Username" required ></v-text-field>
+                                </div>
+                                <div class="col-md-6">
+                                   <v-text-field name="pass" v-model="pass" type="password" :rules="passRules" label="Password" required ></v-text-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                   <v-text-field name="cpass" v-model="cpass" type="password" :rules="[(pass === cpass) || 'Password does not match, please try again.']" label="Confirm Password" ></v-text-field>
+                                </div>
+                                <div class="col-md-6">
+                                   <v-text-field name="email" v-model="email" type="email" :rules="emailRules" label="Email" required ></v-text-field>
+                                </div>
+                            </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Address</legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                   <v-text-field name="stradd" v-model="stradd" label="Street Address (Optional)" maxlength="40" ></v-text-field>
+                                </div>
+                                <div class="col-md-6">
+                                   <v-text-field name="suburb" v-model="suburb" label="Suburb (Optional)" maxlength="20" ></v-text-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                   <v-text-field name="postcode" v-model="postcode" :rules="postcodeRules" label="Postcode" required ></v-text-field>
+                                </div>
+                                <div class="col-md-6">
+                                   <v-text-field name="mobile" v-model="mobile" :rules="mobileRules" label="Mobile Number" ></v-text-field>
+                                </div>
+                            </div>
+                    </fieldset>
+
+                    <v-select name="category" v-model="category" :items="categoryList" :rules="categoryRules" label="Preferred Job Category" required ></v-select>  
+                
+                    <div class="row">
+                       <div class="col-md-6">
+                           <v-btn color="primary" size="small" class="ma-1" @click="tandc = !tandc" >Terms and Condition</v-btn>
+                           <v-btn size="small" :disabled="!valid" color="success" @click="submit" >Submit</v-btn>
+                       </div>
+                    </div>
+                  
+                    <div class="row">
+                       <div class="col-md-6">
+                           <v-card v-if="tandc">
+                              <v-card-title>Terms and Condition</v-card-title>
+                              <v-card-text>I agree that the information I provided is correct.</v-card-text>
+                           </v-card>
+                       </div>
+                    </div>
+                  </v-form>
+                 </v-container>
+               </v-main>
+              </v-app>
+            </div>
+        </div>
+    </div>
+
+    <!-- TO-DO LIST -->
+    <div class="container">
+        <div class="row">
+           <div class="col-sm-3">
+              <h2>To-Do List</h2>
+           </div>
+           <div id="app3">
+              <App3></App3>
+           </div>
+        </div>
+    </div>
+
+  
+    <!-- Bootstrap javascript plug-ins -->
+    <script src="../framework/js/bootstrap.bundle.min.js"></script>
+    <!--  Loading VueJS -->
+	<script src="../framework/js/vue.global.js"></script> 
+    <!-- Loading Vue router -->
+    <script src="../framework/js/vue-router.js"></script>  
+    <script src="../framework/js/vuetify.min.js"></script>  
+	<!-- Custom script file -->
+    <script src="./components/JobList.js"></script>
+    <script src="./components/JobDetail.js"></script>
+    <script src="./components/JobOverview.js"></script>
+    <script src="./components/App.js"></script>
+    <script src="./router.js"></script>
+    <script src="./components/ApplicationForm.js"></script>
+    <script src="./components/ToDoList.js"></script>
+
+    <script>
+        const app = Vue.createApp(App);
+        app.component("joblist", JobList);
+        app.use(router);
+        app.mount('#app');
+    </script>
+</body>
+</html>
