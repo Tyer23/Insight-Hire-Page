@@ -1,5 +1,5 @@
 
-name: Deploy Website to GitHub Pages
+name: Deploy static site to GitHub Pages
 
 on:
   push:
@@ -24,17 +24,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup GitHub Pages
+      - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload website files
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./A2
+      - name: Prepare website files
+        run: |
+          mkdir -p site
+          cp -R A2/. site/
+          cp -R framework site/framework
 
-      - name: Deploy to GitHub Pages
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./site
+
+      - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
